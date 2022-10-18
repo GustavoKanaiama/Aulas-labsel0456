@@ -1,0 +1,12 @@
+Algol -> Python,Pascal,C,_Fortran_ (conjunto de macros em Assembly p/ máquina específica [Imperativa]) {Notação em INFIX}
+
+
+
+Lisp - List processing[Funcional]
+ * Commom Lisp
+ * Baseada em Estrutura de Dados
+
+
+Notação de operações
+    INFIX        -> (1 + 1)
+    S-expression -> (+ 1 1)
