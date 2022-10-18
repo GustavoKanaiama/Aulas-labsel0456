@@ -1,5 +1,5 @@
 
-f = open("leitura.txt", "r")
+f = open('./aula07/readfile.txt', "r")
 
 string_total = list(f.read())
 
