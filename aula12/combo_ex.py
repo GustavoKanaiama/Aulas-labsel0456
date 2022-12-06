@@ -8,7 +8,7 @@ from os.path import abspath, dirname, join
 
 class TheApp:
     '''The Application Class.'''
-
+    
     def __init__(self):
         # Build GUI
         self.builder = Gtk.Builder()

@@ -48,6 +48,8 @@
                 <property name="margin-left">4</property>
                 <property name="margin-right">4</property>
                 <property name="margin-top">15</property>
+                <property name="editable">False</property>
+                <signal name="editing-done" handler="teste33" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -61,7 +63,7 @@
                 <property name="margin-left">4</property>
                 <property name="margin-right">4</property>
                 <property name="margin-top">5</property>
-                <signal name="changed" handler="on_combo_changed" swapped="no"/>
+                <signal name="changed" handler="on_combo_change" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -76,7 +78,6 @@
                 <property name="margin-right">4</property>
                 <property name="margin-top">5</property>
                 <property name="wrap-width">2</property>
-                <signal name="changed" handler="on_combo_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -100,9 +101,21 @@
             <signal name="clicked" handler="on_button_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="text-box">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="editable">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
