@@ -35,6 +35,7 @@
                 <property name="margin-left">4</property>
                 <property name="margin-right">4</property>
                 <property name="margin-top">15</property>
+                <signal name="changed" handler="teste1_chg" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -48,7 +49,7 @@
                 <property name="margin-left">4</property>
                 <property name="margin-right">4</property>
                 <property name="margin-top">15</property>
-                <property name="editable">False</property>
+                <signal name="changed" handler="teste2_chg" swapped="no"/>
                 <signal name="editing-done" handler="teste33" swapped="no"/>
               </object>
               <packing>
