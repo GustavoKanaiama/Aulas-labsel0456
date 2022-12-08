@@ -1,4 +1,12 @@
-Litro,Mililitro,Metro cubico
-1, 1000, 0.001
-0, 1, 0.000001
-0, 0, 1
+Volume
+Litro - 1
+Mililitro - 1000
+Metro cubico - 0.001
+Copo americano - 4.16667
+Galao americano - 0.264172
+#
+Pressao
+Newton/mm² - 1
+Torr - 7500.62
+Atmosfera - 9.86923
+Psi - 145.038
