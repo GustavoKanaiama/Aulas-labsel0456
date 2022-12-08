@@ -50,7 +50,6 @@
                 <property name="margin-right">4</property>
                 <property name="margin-top">15</property>
                 <signal name="changed" handler="teste2_chg" swapped="no"/>
-                <signal name="editing-done" handler="teste33" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -64,7 +63,6 @@
                 <property name="margin-left">4</property>
                 <property name="margin-right">4</property>
                 <property name="margin-top">5</property>
-                <signal name="changed" handler="on_combo_change" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>

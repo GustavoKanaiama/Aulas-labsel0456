@@ -1,4 +1,5 @@
 import gi
+from pint import UnitRegistry
 
 gi.require_version("Gtk", "3.0")
 
@@ -8,10 +9,45 @@ from os.path import abspath, dirname, join
 global changed_box_1
 global changed_box_2
 
+global combo_opt
+global mtx_conv
+
+config_in = open('./aula12/config.txt', 'r')
+
+config_list = list(config_in.read().split('\n'))
+
+combo_opt = config_list[0].split(',')
+
+temp_list = list()
+
+# conversao de linha para coluna, (L, ml, m3)
+mtx_conv = list()
+
+for i in range(len(combo_opt)):
+    i += 1 #pular o cabeçalho
+    list_linha = config_list[i].split(',')
+    
+    for j in range(len(list_linha)):
+        
+        temp_list.append(list_linha[j])
+        
+        if j == 2:
+            #Casting each element in temp_list
+            for i in range(len(temp_list)):
+                temp_list[i] = float(temp_list[i])
+            
+            #append to 'matrix_conversion' list
+            mtx_conv.append(temp_list.copy())
+            temp_list = []
+config_in.close()
+
+
 class TheApp:
     '''The Application Class.'''
 
     def __init__(self):
+        global combo_opt
+        
         # Build GUI
         self.builder = Gtk.Builder()
         self.builder.add_from_file('./aula12/execicio_glade.glade')
@@ -23,10 +59,21 @@ class TheApp:
         self.liststore = Gtk.ListStore(int, str)
 
         # Initialize interface
-        volume_list = [
-            [0, 'Litro (L)'],
-            [1, 'Mililitro (ml)'],
-            [2, 'Metro cúbico (m³)']]
+        
+        acum = 0
+        volume_list = list()
+        temp_list = list()
+        
+        for i in combo_opt:
+            
+            temp_list.append(acum)
+            temp_list.append(i)
+            
+            volume_list.append(temp_list.copy())
+            temp_list = []
+            
+            acum += 1
+        
         for vol in volume_list:
             self.liststore.append(vol)
 
@@ -62,21 +109,21 @@ class TheApp:
 
     def teste1_chg(self, dois):
         global changed_box_1, changed_box_2
-        print('Activate 1')
+
         changed_box_2 = False
         changed_box_1 = True
         
     
     def teste2_chg(self, dois):
         global changed_box_1, changed_box_2
-        print('Activate 2')
+
         changed_box_2 = True
         changed_box_1 = False
         
         
     def convert(self, ind_mud):
-        print(ind_mud)
-        print(type(ind_mud))
+        global mtx_conv
+        
         global changed_box_1, changed_box_2
         ind_mud -= 1 #1 - vol_1 será convertido, 2 - vol_2 sera convertido
         
@@ -89,10 +136,6 @@ class TheApp:
         model2 = self.combo_2.get_model()
         active2 = self.combo_2.get_active()
         
-        # conversao de linha para coluna, (L, ml, m3)
-        mtx_conv = [[1, 1000, 0.001],
-                    [0, 1, 0.000001],
-                    [0, 0, 1]]
         
         ind_l = model1[active1][0]
         ind_j = model2[active2][0]
@@ -116,15 +159,10 @@ class TheApp:
         
         var_obj.set_text(str(resp))
         
-        print(resp)
     
     def on_button_clicked(self, button):
         global changed_box_1, changed_box_2
 
-        print()
-        print(changed_box_1)
-        print(changed_box_2)
-        print()
         if(changed_box_1 >= changed_box_2):
             self.convert(1)
         else:
