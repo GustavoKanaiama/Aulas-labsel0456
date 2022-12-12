@@ -9,37 +9,43 @@ from os.path import abspath, dirname, join
 global changed_box_1
 global changed_box_2
 
-global unit_vec
-#global combo_opt
-#global mtx_conv
+global unit_list
+global combo_opt
+global mtx_conv
 
 config_in = open('./aula12/config.txt', 'r')
 
-units_list = list(config_in.read().split('#'))
+config_list = list(config_in.read().split('\n#\n'))
 
-print(units_list)
+list_temp_name = list()
+list_temp_val = list()
 
-#combo_opt = [['Litro', 'Mililitro'], ['Newton/mm²', 'Atmosfera']]
-#mtx_conv = [[1, 1000], [1, 9.86923]]
-"""
-for i in range(len(combo_opt)):
-    i += 1 #pular o cabeçalho
-    list_linha = config_list[i].split(',')
+unit_list = list()
+combo_opt = list()
+mtx_conv = list()
+
+for combo_list in config_list:
     
-    for j in range(len(list_linha)):
+    element_list =combo_list.split('\n')
+
+    #Append do título da lista em outra lista(de títulos especificamente)
+    unit_list.append(element_list[0])
+    
+    #Retirar o título da lista
+    element_list.pop(0)
+
+    for i in range(len(element_list)):
         
-        temp_list.append(list_linha[j])
-        
-        if j == 2:
-            #Casting each element in temp_list
-            for i in range(len(temp_list)):
-                temp_list[i] = float(temp_list[i])
-            
-            #append to 'matrix_conversion' list
-            mtx_conv.append(temp_list.copy())
-            temp_list = []
-            
-"""
+        name_value_list = element_list[i].split(' - ')
+
+        list_temp_name.append(name_value_list[0].strip())
+        list_temp_val.append(float(name_value_list[1].strip()))
+    
+    combo_opt.append(list_temp_name.copy())  
+    mtx_conv.append(list_temp_val.copy())  
+    list_temp_name = []
+    list_temp_val = []
+
 config_in.close()
 
 
@@ -48,7 +54,12 @@ class TheApp:
 
     def __init__(self):
         global combo_opt
-        global unit_vec
+        global unit_list
+        global combo_1
+        global combo_2
+        global liststore, liststore_units
+        
+        
         
         # Build GUI
         self.builder = Gtk.Builder()
@@ -58,35 +69,41 @@ class TheApp:
         # Cria uma array de duas colunas, a primeira para ser uma espécie de
         # identificador, ID, e a outra, o texto mostrado. Poderia ser uma
         # coluna int e outra string, caso os Ids fossem numéricos.
-        self.liststore = Gtk.ListStore(int, str)
-        self.liststore_units = Gtk.listStore(int, str)
+        liststore = self.liststore = Gtk.ListStore(int, str)
+        liststore_units = self.liststore_units = Gtk.ListStore(int, str)
 
         # Initialize interface
         
         acum = 0
-        volume_list = list()
         temp_list = list()
         
-        for i in combo_opt:
-            
-            temp_list.append(acum)
-            temp_list.append(i)
-            
-            volume_list.append(temp_list.copy())
-            temp_list = []
-            
+        for i in range(len(unit_list)):
+                
+                temp_list.append(acum)
+                temp_list.append(unit_list[i])
+                
+                self.liststore_units.append(temp_list.copy())
+                temp_list = []
+                
+                acum += 1
+                
+        acum = 0
+        
+        print(combo_opt)
+        print()
+        
+        acum = 0
+        for el in combo_opt[0]:
+            self.liststore.append([acum, el])
             acum += 1
         
-        for vol in volume_list:
-            self.liststore.append(vol)
-        
-        
-        for unit in unit_vec:
-            self.liststore_units.append(unit)
-
         # Associando a array (ListStore) ao ComboBox
         self.combo_1 = self.builder.get_object('combo_box1')
+        combo_1 = self.combo_1
+        
         self.combo_2 = self.builder.get_object('combo_box2')
+        combo_2 = self.combo_2
+        
         self.combo_units = self.builder.get_object('combo_units')
         
         self.combo_1.set_model(self.liststore)
@@ -177,19 +194,35 @@ class TheApp:
             
             convert_const = mtx_conv[0][ind_box1]/mtx_conv[0][ind_box2]
                 
-
         resp = var_num * convert_const
         var_obj.set_text(str(resp))
         
-    
-    def on_button_clicked(self, button):
-        global changed_box_1, changed_box_2
-
-        if(changed_box_1 >= changed_box_2):
-            self.convert(1)
-        else:
-            self.convert(2)
   
+    def on_combo_unit_changed(self, combo):
+        global combo_1
+        global combo_2
+        global combo_opt
+        global liststore, liststore_units
+        
+        tree_iter = combo.get_active_iter()
+        if tree_iter is not None:
+            model = combo.get_model()
+            unit = model[tree_iter][0]
+            
+            print(unit)
+            
+            print(combo_opt)
+
+            liststore.clear()
+            acum = 0
+            for el in combo_opt[unit]:
+                liststore.append([acum, el])
+                acum += 1
+
+            combo_1.set_active(0)
+            combo_2.set_active(0)
+
+        
   
 if __name__ == '__main__':
     try:

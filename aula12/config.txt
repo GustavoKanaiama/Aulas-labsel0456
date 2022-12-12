@@ -10,3 +10,9 @@ Newton/mm² - 1
 Torr - 7500.62
 Atmosfera - 9.86923
 Psi - 145.038
+#
+Comprimento
+Metro - 1
+Quilômetro - 0.001
+Jarda - 1.09361
+Milha náutica - 0.000539957
