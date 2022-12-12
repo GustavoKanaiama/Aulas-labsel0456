@@ -6,13 +6,14 @@ Copo americano - 4.16667
 Galao americano - 0.264172
 #
 Pressao
-Newton/mm² - 1
-Torr - 7500.62
-Atmosfera - 9.86923
-Psi - 145.038
+Bar - 1
+Pascal - 100000
+Atmosfera - 0.986923
+Torr - 750.062
 #
 Comprimento
 Metro - 1
+Centrimetros - 100
 Quilômetro - 0.001
 Jarda - 1.09361
 Milha náutica - 0.000539957

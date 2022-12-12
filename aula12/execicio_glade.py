@@ -12,6 +12,8 @@ global changed_box_2
 global unit_list
 global combo_opt
 global mtx_conv
+global unit
+
 
 config_in = open('./aula12/config.txt', 'r')
 
@@ -23,6 +25,8 @@ list_temp_val = list()
 unit_list = list()
 combo_opt = list()
 mtx_conv = list()
+
+unit = 0 #starts with the first unit (set in 0)
 
 for combo_list in config_list:
     
@@ -155,6 +159,7 @@ class TheApp:
         
         
     def convert(self, ind_mud):
+        global unit
         global mtx_conv
         global changed_box_1, changed_box_2
         
@@ -174,7 +179,6 @@ class TheApp:
         ind_box1 = model1[active1][0]
         ind_box2 = model2[active2][0]
         
-        
         if(ind_mud == 0):
             vol1_num = float(vol_1.get_text())
             var_num = vol1_num
@@ -182,7 +186,7 @@ class TheApp:
             #recebe o obj que ira mudar
             var_obj = vol_2
             
-            convert_const = mtx_conv[0][ind_box2]/mtx_conv[0][ind_box1]
+            convert_const = mtx_conv[unit][ind_box2]/mtx_conv[unit][ind_box1]
             
             
         else:
@@ -192,7 +196,7 @@ class TheApp:
             #recebe o obj que ira mudar
             var_obj = vol_1
             
-            convert_const = mtx_conv[0][ind_box1]/mtx_conv[0][ind_box2]
+            convert_const = mtx_conv[unit][ind_box1]/mtx_conv[unit][ind_box2]
                 
         resp = var_num * convert_const
         var_obj.set_text(str(resp))
@@ -202,6 +206,8 @@ class TheApp:
         global combo_1
         global combo_2
         global combo_opt
+        global unit
+        
         global liststore, liststore_units
         
         tree_iter = combo.get_active_iter()
